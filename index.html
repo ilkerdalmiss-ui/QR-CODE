@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    ```html
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Studio | QR Kod Oluşturucu</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #0b1020;
+    --panel: #131a2d;
+    --border: #29324b;
+    --purple: #8b7cff;
+    --text: #ffffff;
+    --muted: #a7afc5;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    padding: 23px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #242b40;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: bold;
+    color: var(--purple);
+}
+
+.logo span {
+    color: white;
+}
+
+.header-tag {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+main {
+    width: 100%;
+    max-width: 1100px;
+    margin: 55px auto;
+    padding: 20px;
+    flex: 1;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.hero h1 {
+    font-size: clamp(32px, 5vw, 52px);
+    margin-bottom: 17px;
+}
+
+.hero h1 span {
+    color: var(--purple);
+}
+
+.hero p {
+    color: var(--muted);
+    line-height: 1.8;
+    font-size: 15px;
+}
+
+.workspace {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+.panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px;
+}
+
+.panel h2 {
+    font-size: 21px;
+    margin-bottom: 25px;
+}
+
+.field {
+    margin-bottom: 23px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+    color: #d9def0;
+    font-size: 14px;
+}
+
+textarea,
+input[type="text"] {
+    width: 100%;
+    background: #0b1020;
+    border: 1px solid #35405c;
+    border-radius: 10px;
+    padding: 14px;
+    color: white;
+    outline: none;
+    font: inherit;
+}
+
+textarea {
+    min-height: 135px;
+    resize: vertical;
+}
+
+textarea:focus {
+    border-color: var(--purple);
+}
+
+.options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+input[type="color"] {
+    width: 100%;
+    height: 45px;
+    background: #0b1020;
+    border: 1px solid #35405c;
+    border-radius: 8px;
+    padding: 4px;
+    cursor: pointer;
+}
+
+input[type="range"] {
+    width: 100%;
+    accent-color: var(--purple);
+    cursor: pointer;
+}
+
+button {
+    border: none;
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    filter: brightness(1.12);
+}
+
+button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.primary {
+    width: 100%;
+    background: #7966ff;
+    color: white;
+}
+
+.secondary {
+    background: #252e46;
+    color: white;
+    flex: 1;
+}
+
+.button-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.preview {
+    min-height: 430px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.qr-frame {
+    width: 260px;
+    height: 260px;
+    background: white;
+    border-radius: 14px;
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    overflow: hidden;
+}
+
+#qrImage {
+    display: none;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.placeholder {
+    color: #68738f;
+    line-height: 1.7;
+}
+
+.symbol {
+    font-size: 65px;
+    margin-bottom: 10px;
+}
+
+#download {
+    max-width: 300px;
+}
+
+#status {
+    min-height: 24px;
+    margin-top: 16px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+footer {
+    text-align: center;
+    color: #77819b;
+    padding: 27px 15px;
+    border-top: 1px solid #242b40;
+    font-size: 13px;
+    line-height: 1.8;
+    margin-top: auto;
+}
+
+.developer {
+    display: inline-block;
+    color: var(--purple);
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 7px;
+}
+
+@media (max-width: 760px) {
+    header {
+        padding: 20px;
+    }
+
+    .header-tag {
+        display: none;
+    }
+
+    main {
+        margin: 25px auto;
+    }
+
+    .workspace {
+        grid-template-columns: 1fr;
+    }
+
+    .panel {
+        padding: 20px;
+    }
+
+    .qr-frame {
+        width: 240px;
+        height: 240px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">QR <span>STUDIO</span></div>
+    <div class="header-tag">Ücretsiz QR Kod Oluşturucu</div>
+</header>
+
+<main>
+    <section class="hero">
+        <h1>Kendi QR Kodunu <span>Oluştur</span></h1>
+        <p>
+            Metnini veya internet adresini gir, QR kodunu oluştur.<br>
+            Hızlı, ücretsiz ve kullanımı kolay.
+        </p>
+    </section>
+
+    <section class="workspace">
+
+        <div class="panel">
+            <h2>QR Kodunu Özelleştir</h2>
+
+            <div class="field">
+                <label for="content">Metin veya internet adresi</label>
+                <textarea
+                    id="content"
+                    maxlength="2000"
+                    placeholder="https://ornek.com veya istediğin metni yaz..."
+                ></textarea>
+            </div>
+
+            <div class="options">
+                <div>
+                    <label for="foreground">QR kod rengi</label>
+                    <input type="color" id="foreground" value="#111111">
+                </div>
+
+                <div>
+                    <label for="background">Arka plan rengi</label>
+                    <input type="color" id="background" value="#ffffff">
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="size">
+                    QR kod boyutu: <span id="sizeValue">300</span> px
+                </label>
+                <input
+                    type="range"
+                    id="size"
+                    min="200"
+                    max="500"
+                    value="300"
+                >
+            </div>
+
+            <button class="primary" id="generate">
+                ✦ QR Kod Oluştur
+            </button>
+
+            <div class="button-row">
+                <button class="secondary" id="clear">Temizle</button>
+                <button class="secondary" id="copy">Metni Kopyala</button>
+            </div>
+        </div>
+
+        <div class="panel preview">
+            <h2>QR Kod Önizlemesi</h2>
+
+            <div class="qr-frame">
+                <div class="placeholder" id="placeholder">
+                    <div class="symbol">▦</div>
+                    QR kodun burada görünecek.
+                </div>
+
+                <img id="qrImage" alt="Oluşturulan QR kod">
+            </div>
+
+            <button class="primary" id="download" disabled>
+                ↓ PNG Olarak İndir
+            </button>
+
+            <div id="status" role="status" aria-live="polite">
+                Başlamak için bir metin gir.
+            </div>
+        </div>
+
+    </section>
+</main>
+
+<footer>
+    QR STUDIO © 2026 · Basit ve kullanışlı QR kod aracı
+    <br>
+    <span class="developer">İlker Dalmış Tarafından Geliştirildi</span>
+</footer>
+
+<script>
+const content = document.getElementById("content");
+const foreground = document.getElementById("foreground");
+const background = document.getElementById("background");
+const size = document.getElementById("size");
+const sizeValue = document.getElementById("sizeValue");
+const qrImage = document.getElementById("qrImage");
+const placeholder = document.getElementById("placeholder");
+const download = document.getElementById("download");
+const status = document.getElementById("status");
+
+let currentUrl = "";
+let requestNumber = 0;
+
+size.addEventListener("input", () => {
+    sizeValue.textContent = size.value;
+});
+
+document.getElementById("generate").addEventListener("click", () => {
+    const text = content.value.trim();
+    const thisRequest = ++requestNumber;
+
+    if (!text) {
+        status.textContent = "Lütfen bir metin veya bağlantı gir.";
+        content.focus();
+        return;
+    }
+
+    const params = new URLSearchParams({
+        data: text,
+        size: `${size.value}x${size.value}`,
+        color: foreground.value.slice(1),
+        bgcolor: background.value.slice(1),
+        format: "png",
+        margin: "10"
+    });
+
+    const url =
+        "https://api.qrserver.com/v1/create-qr-code/?" +
+        params.toString();
+
+    status.textContent = "QR kod oluşturuluyor...";
+    download.disabled = true;
+
+    const testImage = new Image();
+
+    testImage.onload = () => {
+        if (thisRequest !== requestNumber) return;
+
+        currentUrl = url;
+        qrImage.src = testImage.src;
+        qrImage.style.display = "block";
+        placeholder.style.display = "none";
+        download.disabled = false;
+
+        status.textContent = "QR kodun hazır! İndirip kullanabilirsin.";
+    };
+
+    testImage.onerror = () => {
+        if (thisRequest !== requestNumber) return;
+
+        status.textContent =
+            "QR kod oluşturulamadı. İnternet bağlantını kontrol edip tekrar dene.";
+    };
+
+    testImage.src = url;
+});
+
+download.addEventListener("click", async () => {
+    if (!currentUrl) return;
+
+    download.disabled = true;
+    status.textContent = "İndirme hazırlanıyor...";
+
+    try {
+        const response = await fetch(currentUrl);
+
+        if (!response.ok) {
+            throw new Error("İndirme başarısız.");
+        }
+
+        const blob = await response.blob();
+        const objectUrl = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+
+        link.href = objectUrl;
+        link.download = "qr-kod.png";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+
+        setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+
+        status.textContent = "QR kod indirme işlemi başlatıldı.";
+    } catch {
+        status.textContent =
+            "İndirme başarısız oldu. İnternet bağlantını kontrol et.";
+    } finally {
+        download.disabled = !currentUrl;
+    }
+});
+
+document.getElementById("clear").addEventListener("click", () => {
+    requestNumber++;
+    content.value = "";
+    qrImage.removeAttribute("src");
+    qrImage.style.display = "none";
+    placeholder.style.display = "block";
+
+    currentUrl = "";
+    download.disabled = true;
+
+    status.textContent =
+        "Alanlar temizlendi. Yeni bir QR kod oluşturabilirsin.";
+});
+
+document.getElementById("copy").addEventListener("click", async () => {
+    const text = content.value.trim();
+
+    if (!text) {
+        status.textContent = "Kopyalamak için önce metin gir.";
+        return;
+    }
+
+    try {
+        await navigator.clipboard.writeText(text);
+        status.textContent = "Metin panoya kopyalandı.";
+    } catch {
+        content.focus();
+        content.select();
+        status.textContent =
+            "Metin seçildi. Ctrl+C ile kopyalayabilirsin.";
+    }
+});
+</script>
+
+</body>
+</html>
+```
+</body>
+</html>
